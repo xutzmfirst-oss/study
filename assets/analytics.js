@@ -18,9 +18,22 @@
     if (started || consent!=='accepted') return; started=true;
     if (cfg.liveInternet) {
       enabled.push('LiveInternet');
-      const pixel=new Image();
-      pixel.src='https://counter.yadro.ru/hit?r'+encodeURIComponent(document.referrer)+';s'+screen.width+'*'+screen.height+'*'+screen.colorDepth+';u'+encodeURIComponent(location.href)+';h'+encodeURIComponent(document.title.substring(0,150))+';'+Math.random();
-      badge('LiveInternet',cfg.badges?.liveInternet,'https://www.liveinternet.ru/stat/'+location.hostname+'/');
+      // The supplied t52.6 image both records the pageview and displays totals.
+      // Do not add a separate tracking pixel: it would count the page twice.
+      const link=document.createElement('a');
+      link.href='https://www.liveinternet.ru/click';
+      link.target='_blank';link.rel='noopener noreferrer';
+      const counter=document.createElement('img');
+      counter.id='licnt82FE';counter.width=88;counter.height=31;
+      counter.style.border='0';
+      counter.title='LiveInternet: показано число просмотров и посетителей за 24 часа';
+      counter.alt='LiveInternet — просмотры и посетители за 24 часа';
+      counter.src='data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAEALAAAAAABAAEAAAIBTAA7';
+      link.appendChild(counter);document.getElementById('analytics-badges').appendChild(link);
+      const s=window.screen;
+      counter.src='https://counter.yadro.ru/hit?t52.6;r'+escape(document.referrer)+
+        (typeof(s)==='undefined'?'':';s'+s.width+'*'+s.height+'*'+(s.colorDepth?s.colorDepth:s.pixelDepth))+
+        ';u'+escape(document.URL)+';h'+escape(document.title.substring(0,150))+';'+Math.random();
     }
     if (/^\d+$/.test(cfg.ramblerId||'')) {
       enabled.push('Рамблер/Топ-100');
