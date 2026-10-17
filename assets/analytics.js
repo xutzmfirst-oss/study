@@ -39,7 +39,7 @@
       enabled.push('Рамблер/Топ-100');
       window._top100q=window._top100q||[];
       window._top100q.push(function () {
-        try { window.top100Counter=new window.top100({project:cfg.ramblerId});
+        try { window.top100Counter=new window.top100({project:Number(cfg.ramblerId)});
           if (!cfg.badges?.rambler) { const slot=document.createElement('span');slot.id='rambler-badge';document.getElementById('analytics-badges').appendChild(slot);window.top100Counter.drawLogoTo('rambler-badge'); }
         } catch (err) { console.warn('Не удалось запустить счётчик Топ-100',err); }
       });
@@ -51,7 +51,7 @@
       window._tmr=window._tmr||[];
       window._tmr.push({id:cfg.mailId,type:'pageView',start:Date.now()});
       script('https://top-fwz1.mail.ru/js/code.js','tmr-code');
-      badge('Рейтинг Mail.ru',cfg.badges?.mail,'https://top.mail.ru/jump?from='+encodeURIComponent(cfg.mailId));
+      badge('Рейтинг Mail.ru',cfg.badges?.mail,'https://top-fwz1.mail.ru/jump?from='+encodeURIComponent(cfg.mailId));
     }
   }
   // Only actions occurring after permission are sent. Past actions are not replayed.
